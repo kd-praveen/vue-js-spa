@@ -11,7 +11,9 @@
 </head>
 
 <body id="content">
-    <nav class="navbar navbar-expand-lg" :class="navbarClasses">
+    <nav
+        :class="[ `navbar-${theme}`, `bg-${theme}`, 'navbar', 'navbar-expand-lg' ]"
+    >
         <div class="container-fluid">
             <a class="navbar-brand" href="#">My Vue</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -27,7 +29,7 @@
                     </li>
                 </ul>
                 <form class="d-flex" role="toggle-nav">
-                    <button class="btn btn-primary" type="submit" @click.prevent="useDarkNavbar = !useDarkNavbar">Toggle
+                    <button class="btn btn-primary" type="submit" @click.prevent="changeTheme()">Toggle
                         Navbar</button>
                 </form>
             </div>
@@ -45,20 +47,10 @@
     const { createApp, ref } = Vue
 
     createApp({
-        computed: {
-            navbarClasses() {
-                return {
-                    'navbar-dark': this.useDarkNavbar,
-                    'bg-dark': this.useDarkNavbar,
-                    'navbar-light': !this.useDarkNavbar,
-                    'bg-light': !this.useDarkNavbar
-                }
-            }
-        },
         data() {
             return {
                 activePage: 0,
-                useDarkNavbar: false,
+                theme: 'light',
                 pages: [
                     {
                         link: { text: "Home", url: "index.html" },
@@ -76,6 +68,17 @@
                         content: "This is contact page content."
                     }
                 ]
+            }
+        },
+        methods: {
+            changeTheme() {
+                let theme = 'light';
+
+                if(this.theme == 'light'){
+                    theme = 'dark';
+                }
+
+                this.theme = theme;
             }
         }
     }).mount("#content")
